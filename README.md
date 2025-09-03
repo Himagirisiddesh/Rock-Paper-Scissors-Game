@@ -30,7 +30,7 @@ rock-paper-scissors-game/
 └── new2.js # Game logic 
 
 📸 Screenshots
-![image alt]()
+![image alt](https://github.com/Himagirisiddesh/Rock-Paper-Scissors-Game/blob/main/image.png?raw=true)
 
 
 
