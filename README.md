@@ -31,6 +31,7 @@ rock-paper-scissors-game/
 
 📸 Screenshots
 ![image alt](https://github.com/Himagirisiddesh/Rock-Paper-Scissors-Game/blob/main/image.png?raw=true)
+![image alt](https://github.com/Himagirisiddesh/Rock-Paper-Scissors-Game/blob/main/image%20(1).png?raw=true)
 
 
 
