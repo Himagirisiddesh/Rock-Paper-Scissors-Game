@@ -29,5 +29,8 @@ rock-paper-scissors-game/
 ├── new.css # Styles & animations
 └── new2.js # Game logic 
 
+📸 Screenshots
+![image alt]()
+
 
 
