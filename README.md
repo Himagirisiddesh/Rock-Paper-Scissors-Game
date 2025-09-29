@@ -1,7 +1,7 @@
 🎮 Rock-Paper-Scissors Game  
 
 An interactive **Rock-Paper-Scissors** game built with **HTML, CSS, and JavaScript**.  
-Features a stylish animated background, responsive design, score tracking, and modal-based results display.  
+Features a stylish animated background, responsive design, score tracking, and modal-based results display.   
 
 
 ✨ Features  
