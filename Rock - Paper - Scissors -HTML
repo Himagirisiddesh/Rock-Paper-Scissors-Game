@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="scissors.css">
+  <title>Rock-paper-scissors</title>
+</head>
+<body>
+  <header>
+    <h1 class="title">Rock - Paper - Scissors</h1>
+  </header>
+
+  <div class="btn-container">  
+    <button id="restart" class="restart-btn">Restart Game</button>
+  </div>
+
+  <div class="score-board">
+    <div id="user-badge" class="badge">User</div>
+    <div id="cpu-badge" class="badge">Compu</div>
+    <span id="user-score">0</span>:<span id="cpu-score">0</span>
+  </div>
+
+  <div class="choices">
+    <div id="rock" class="choice">
+      <img src="https://res.cloudinary.com/itsellej/image/upload/v1533400140/rock-paper-scissors/rock.png" alt="Rock">
+    </div>
+    <div id="paper" class="choice">
+      <img src="https://media.geeksforgeeks.org/wp-content/uploads/20210705223645/paper.jpeg" alt="Paper">
+    </div>
+    <div id="scissors" class="choice">
+      <img src="https://www.shutterstock.com/shutterstock/photos/2106816413/display_1500/stock-vector-doodle-stationery-scissor-icon-in-vector-hand-drawn-scissor-icon-in-vector-scissor-doodle-2106816413.jpg" alt="Scissors">
+    </div>
+  </div>
+
+  <h2>Make your choice</h2>
+
+  <!-- Modal -->
+  <div class="modal">
+    <div id="result" class="modal-content"></div>
+  </div>
+
+  <script src="paper.js"></script>
+</body>
+</html>
