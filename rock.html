@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08111f">
+  <link rel="stylesheet" href="scissors.css">
+  <title>Neon Arena | Rock Paper Scissors</title>
+</head>
+<body>
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+  <canvas id="fx-canvas" class="fx-canvas" aria-hidden="true"></canvas>
+
+  <div class="page-glow page-glow--left" aria-hidden="true"></div>
+  <div class="page-glow page-glow--right" aria-hidden="true"></div>
+  <div class="page-noise" aria-hidden="true"></div>
+
+  <div id="loading-screen" class="loading-screen" aria-live="polite">
+    <div class="loading-screen__content">
+      <div class="loader-orbit">
+        <span class="loader-orbit__ring"></span>
+        <span class="loader-orbit__ring loader-orbit__ring--secondary"></span>
+        <span class="loader-orbit__core"></span>
+      </div>
+      <p class="loading-screen__eyebrow">Arcade Boot Sequence</p>
+      <h1 class="loading-screen__title">Initializing Neon Arena</h1>
+      <div class="loading-screen__bar">
+        <span class="loading-screen__progress"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-shell" class="app-shell">
+    <header class="hero panel neon-border">
+      <div class="hero__copy">
+        <span class="eyebrow">Premium Interactive Edition</span>
+        <h1>Rock Paper Scissors<span class="hero__accent">Reimagined</span></h1>
+      </div>
+
+      <div class="hero__controls">
+        <div class="theme-switch" role="group" aria-label="Theme switcher">
+          <button type="button" class="theme-switch__button interactive is-active" data-theme-target="dark">
+            Dark Neon
+          </button>
+          <button type="button" class="theme-switch__button interactive" data-theme-target="light">
+            Light Neon
+          </button>
+        </div>
+
+        <div class="hero__actions">
+          <button type="button" id="reset-session" class="icon-button interactive">
+            <span class="icon-button__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M20 12a8 8 0 1 1-2.34-5.66"></path>
+                <path d="M20 4v6h-6"></path>
+              </svg>
+            </span>
+            <span>Reset Arena</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <aside class="panel command-center neon-border">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Control Deck</span>
+            <h2>Session Intel</h2>
+          </div>
+          <span id="game-status" class="status-pill">Ready</span>
+        </div>
+
+        <div class="score-rack">
+          <article class="metric-card metric-card--primary">
+            <span class="metric-card__label">Player Wins</span>
+            <strong id="user-score" class="metric-card__value">0</strong>
+            <span class="metric-card__meta">Precision output</span>
+          </article>
+
+          <article class="metric-card metric-card--secondary">
+            <span class="metric-card__label">CPU Wins</span>
+            <strong id="cpu-score" class="metric-card__value">0</strong>
+            <span class="metric-card__meta">Adaptive pressure</span>
+          </article>
+
+          <article class="metric-card metric-card--tertiary">
+            <span class="metric-card__label">Draws</span>
+            <strong id="draw-score" class="metric-card__value">0</strong>
+            <span class="metric-card__meta">Perfect parity</span>
+          </article>
+        </div>
+
+        <div class="streak-card">
+          <span class="streak-card__label">Current Win Streak</span>
+          <strong id="streak-count" class="streak-card__value">0x</strong>
+          <p id="streak-label" class="streak-card__copy">Build momentum to light up the arena.</p>
+        </div>
+
+        <section class="difficulty-card">
+          <div class="section-heading">
+            <h3>AI Difficulty</h3>
+            <span id="difficulty-badge" class="micro-pill">Medium</span>
+          </div>
+
+          <div id="difficulty-switch" class="difficulty-switch" role="group" aria-label="Difficulty level">
+            <button type="button" class="difficulty-switch__button interactive" data-difficulty="easy">Easy</button>
+            <button type="button" class="difficulty-switch__button interactive is-active" data-difficulty="medium">Medium</button>
+            <button type="button" class="difficulty-switch__button interactive" data-difficulty="hard">Hard</button>
+          </div>
+        </section>
+
+        <div class="mini-grid">
+          <article class="mini-stat">
+            <span>Rounds</span>
+            <strong id="round-count">0</strong>
+          </article>
+          <article class="mini-stat">
+            <span>Best Streak</span>
+            <strong id="best-streak">0x</strong>
+          </article>
+          <article class="mini-stat">
+            <span>Theme</span>
+            <strong id="theme-label">Dark</strong>
+          </article>
+          <article class="mini-stat">
+            <span>Mode</span>
+            <strong id="difficulty-label">Medium</strong>
+          </article>
+        </div>
+
+        <section class="shortcut-card">
+          <div class="section-heading">
+            <h3>Keyboard Controls</h3>
+            <span class="micro-pill">Fast Input</span>
+          </div>
+          <div class="shortcut-list">
+            <span><kbd>R</kbd> Rock</span>
+            <span><kbd>P</kbd> Paper</span>
+            <span><kbd>S</kbd> Scissors</span>
+            <span><kbd>T</kbd> Toggle Theme</span>
+          </div>
+        </section>
+      </aside>
+
+      <section class="panel arena neon-border" aria-labelledby="arena-title">
+        <div class="arena__header">
+          <div>
+            <span class="eyebrow">Battle Arena</span>
+            <h2 id="arena-title">Choose your weapon</h2>
+          </div>
+          <p id="helper-text" class="arena__helper">
+            Step into the arena and trigger the first round. Every move updates the history, streaks, and AI behavior.
+          </p>
+        </div>
+
+        <div id="versus-stage" class="versus-stage">
+          <article id="player-card" class="combatant combatant--player">
+            <span class="combatant__badge">You</span>
+            <div id="player-choice-display" class="combatant__icon"></div>
+            <strong id="player-choice-label" class="combatant__label">Waiting</strong>
+            <span class="combatant__subcopy">Ready to engage</span>
+          </article>
+
+          <div id="vs-badge" class="vs-badge" aria-hidden="true">
+            <span>VS</span>
+            <span class="vs-badge__ring"></span>
+          </div>
+
+          <article id="cpu-card" class="combatant combatant--cpu">
+            <span class="combatant__badge">CPU</span>
+            <div id="cpu-choice-display" class="combatant__icon"></div>
+            <strong id="cpu-choice-label" class="combatant__label">Waiting</strong>
+            <span class="combatant__subcopy">Adaptive opponent</span>
+          </article>
+        </div>
+
+        <div id="choices-grid" class="choices-grid">
+          <button type="button" class="choice-card interactive" data-choice="rock" aria-label="Choose rock">
+            <span class="choice-card__rays" aria-hidden="true"></span>
+            <span class="choice-card__shortcut">R</span>
+            <span class="choice-card__icon" data-icon-slot="rock"></span>
+            <span class="choice-card__text">
+              <strong>Rock</strong>
+              <small>Heavy impact defense</small>
+            </span>
+          </button>
+
+          <button type="button" class="choice-card interactive" data-choice="paper" aria-label="Choose paper">
+            <span class="choice-card__rays" aria-hidden="true"></span>
+            <span class="choice-card__shortcut">P</span>
+            <span class="choice-card__icon" data-icon-slot="paper"></span>
+            <span class="choice-card__text">
+              <strong>Paper</strong>
+              <small>Tactical wrap attack</small>
+            </span>
+          </button>
+
+          <button type="button" class="choice-card interactive" data-choice="scissors" aria-label="Choose scissors">
+            <span class="choice-card__rays" aria-hidden="true"></span>
+            <span class="choice-card__shortcut">S</span>
+            <span class="choice-card__icon" data-icon-slot="scissors"></span>
+            <span class="choice-card__text">
+              <strong>Scissors</strong>
+              <small>Precision slicing burst</small>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <aside class="panel insight-panel neon-border">
+        <section class="leaderboard-card">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Persistent Stats</span>
+              <h2>Leaderboard</h2>
+            </div>
+            <span class="micro-pill">Local Storage</span>
+          </div>
+          <ol id="leaderboard-list" class="leaderboard-list"></ol>
+        </section>
+
+        <section class="history-card">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">Recent Activity</span>
+              <h2>Game History</h2>
+            </div>
+            <button type="button" id="clear-history" class="ghost-button interactive">Clear</button>
+          </div>
+          <div id="history-list" class="history-list"></div>
+        </section>
+      </aside>
+    </main>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+  </div>
+
+  <div id="result-overlay" class="overlay" hidden>
+    <div class="overlay__backdrop"></div>
+    <section class="result-popup panel neon-border" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+      <button type="button" id="popup-close" class="result-popup__close interactive" aria-label="Close result popup">
+        <span>&times;</span>
+      </button>
+
+      <span id="popup-badge" class="result-popup__badge">Victory</span>
+      <h2 id="popup-title">Round Complete</h2>
+      <p id="popup-copy" class="result-popup__copy">The arena is ready for the next move.</p>
+
+      <div class="popup-stats">
+        <article class="popup-stat">
+          <span>Streak</span>
+          <strong id="popup-streak">0x</strong>
+        </article>
+        <article class="popup-stat">
+          <span>Difficulty</span>
+          <strong id="popup-difficulty">Medium</strong>
+        </article>
+        <article class="popup-stat">
+          <span>Rounds</span>
+          <strong id="popup-rounds">0</strong>
+        </article>
+      </div>
+
+      <button type="button" id="next-round" class="primary-button interactive">Play Next Round</button>
+    </section>
+  </div>
+
+  <script type="module" src="paper.js"></script>
+</body>
+</html>

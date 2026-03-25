@@ -1,0 +1,8 @@
+{
+  "name": "neon-rps-arena",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
