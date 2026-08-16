@@ -100,14 +100,6 @@ Then open **`http://127.0.0.1:3000`**
 - Interactive buttons with hover effects
 - Smooth transitions and animated counters
 
-## 🖼️ Screenshots
-
-> Add screenshots here to showcase the game, e.g.:
-> ```markdown
-> ![Game Interface](screenshots/gameplay.png)
-> ![Victory Screen](screenshots/victory.png)
-> ![Draw Result](screenshots/draw.png)
-> ```
 
 ## 📌 Future Improvements
 
